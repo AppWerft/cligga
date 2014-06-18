@@ -69,5 +69,9 @@ exports.create = function(_color, _room) {
 			var answers = [];
 		}
 	});
+	win.addEventListener('close', function() {
+		Ti.App.Cligga.quitvoter(function(_payload) {
+		});
+	});
 	return win;
 };

@@ -1,5 +1,9 @@
 exports.create = function(_color, _room) {
-	Ti.App.Cligga.joinquerist(function() {
+	Ti.App.Cligga.joinquerist(function(_payload) {
+	});
+	Ti.App.Cligga.addEventListener('voters', function(_payload) {
+		console.log(JSON.stringify(_payload));
+		member.setText(_payload.voters + ' Teilnehmer');
 	});
 	var self = Ti.UI.createWindow({
 		navBarHidden : true,
@@ -17,10 +21,7 @@ exports.create = function(_color, _room) {
 		text : 'noch kein Antworter angemeldet'
 	});
 	self.add(member);
-	Ti.App.Cligga.joinvoter(function(_payload) {
-		console.log(JSON.stringify(_payload));
-		if (_payload.voters) member.setText(_payload.voters.length + ' Antworter sind angemeldet.');
-	});
+
 	self.add(Ti.UI.createLabel({
 		height : 50,
 		color : 'silver',
