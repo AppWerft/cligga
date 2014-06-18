@@ -8,44 +8,14 @@ var Cligga = function() {
 	this.eventhandlers = [];
 	var that = this;
 	this.socket.on('voter_joined', function(_payload) {
-		if (that._cbhandlers) {
-			for (var item in that._cbhandlers) {
-				that._cbhandlers[item].call(that, {
-					voters : _payload
-				});
-			}
-		}
-
 	});
 	this.socket.on('voters', function(_payload) {
 		that.fireEvent('voters', _payload);
-		/*
-		 if (that.eventhandlers.voters) {
-		 for (var i = 0; i < that.eventhandlers.voters.length; i++) {
-		 that.eventhandlers.voters[i].call(that, _payload);
-		 }
-		 }
-		 if (that._cbhandlers) {
-		 for (var item in that._cbhandlers) {
-		 that._cbhandlers[item].call(that, _payload);
-		 }
-		 }*/
-
 	});
 	this.socket.on('question', function(_payload) {
-		if (that._cbhandlers)
-			for (var item in that._cbhandlers) {
-				that._cbhandlers[item].call(that, _payload);
-			}
-		;
+		this.fireEvent('newquestion', payload);
 	});
 	this.socket.on('voter_quit', function(_payload) {
-		if (that._cbhandlers)
-			for (var item in that._cbhandlers) {
-				that._cbhandlers[item].call(that, {
-				});
-			}
-		;
 	});
 	console.log('Info: Cligga constructor succeded, all event listener initialized');
 	return this;
@@ -69,8 +39,12 @@ Cligga.prototype = {
 		this.eventhandlers[_event].push(_callback);
 	},
 	removeEventListener : function(_event, _callback) {
-		if (!this.eventhandlers[_event]) return;
-		this.eventhandlers[_event] = [];
+		if (!this.eventhandlers[_event])
+			return;
+		var newArray = this.eventhandlers[_event].filter(function(element) {
+			return element != _callback;
+		});
+		this.eventhandlers[_event] = newArray;
 	},
 	sendQuestion : function(_question) {
 		var payload = {
