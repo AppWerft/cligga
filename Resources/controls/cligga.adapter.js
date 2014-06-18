@@ -68,6 +68,10 @@ Cligga.prototype = {
 			this.eventhandlers[_event] = [];
 		this.eventhandlers[_event].push(_callback);
 	},
+	removeEventListener : function(_event, _callback) {
+		if (!this.eventhandlers[_event]) return;
+		this.eventhandlers[_event] = [];
+	},
 	sendQuestion : function(_question) {
 		var payload = {
 			"id" : uid,
