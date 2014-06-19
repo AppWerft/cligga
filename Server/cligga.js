@@ -1,5 +1,4 @@
-var http = require('http'), fs = require('fs'), socketio = require('socket.io');
-
+var http = require('http'), fs = require('fs'), io = require('socket.io');
 var server = http.createServer();
 
 server.on('request', function(req, res) {
@@ -8,16 +7,16 @@ server.on('request', function(req, res) {
 	});
 	res.end(fs.readFileSync(__dirname + '/index.html'));
 });
-
+    
 server.listen(1334, function() {
 	console.log('Listening at: http://localhost:1334');
 });
 
 
-
 var voters = [];
 var querist = {};
-socketio.listen(server).on('connection', function(socket) {
+io.listen(server).on('connection', function(socket) {
+	console.log('Info: new client connected');
 	socket.on('join_querist', function(data) {
 		console.log('querist joined');
 		if (!querist.uid || querist.uid != data.uid) {
