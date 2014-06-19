@@ -7,7 +7,7 @@ server.on('request', function(req, res) {
 	});
 	res.end(fs.readFileSync(__dirname + '/index.html'));
 });
-    
+
 server.listen(1334, function() {
 	console.log('Listening at: http://localhost:1334');
 });
