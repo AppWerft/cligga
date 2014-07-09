@@ -4,6 +4,8 @@ exports.create = function() {
 		self.remove(right);
 		color = (_e.source.itemId == 'q') ? '#942625' : '#497E30';
 		type = _e.source.itemId;
+		Ti.App.Cligga = new (require('controls/cligga.adapter'))();
+
 		label.setText((_e.source.itemId == 'q') ? 'Raumnummer\n' + Ti.App.Cligga.getRoomId() : 'Du bist Antworter.\nTrage jetzt den Raum ein, den der Frager vorgegeben hat');
 		label.setColor(color);
 		label.animate({
@@ -21,7 +23,7 @@ exports.create = function() {
 			});
 		}
 	};
-	var color,type;
+	var color, type;
 	var self = Ti.UI.createWindow({
 		exitOnClose : true,
 		navBarHidden : true,
