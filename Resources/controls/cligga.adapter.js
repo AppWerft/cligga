@@ -1,32 +1,44 @@
+/* Module globals */
 var uid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).substring(0, 5);
 var roomid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).replace(/[\D]/g, '').substring(0, 5);
-var socketio = require('vendor/socket.io');
+var socketio = require('vendor/socket.io.0.9.10');
+var WSURL = Ti.App.Properties.getString('cliggauri');
 
+/* constructor */
 var Cligga = function() {
-	this.socket = socketio.connect(Ti.App.Properties.getString('cliggauri'));
-	this._cbhandlers = [];
-	this.eventhandlers = [];
+	this.eventhandlers = []; // collector of hooks
 	var that = this;
+	this.socket = socketio.connect('ws://134.100.29.95:1334/');
+	console.log('Info: socket connected ~~~~~~~' + this.socket);
 	this.socket.on('voter_joined', function(_payload) {
 	});
 	this.socket.on('voters', function(_payload) {
 		that.fireEvent('voters', _payload);
 	});
 	this.socket.on('question', function(_payload) {
-		this.fireEvent('newquestion', payload);
+		that.fireEvent('newquestion', _payload);
 	});
 	this.socket.on('voter_quit', function(_payload) {
 	});
-	console.log('Info: Cligga constructor succeded, all event listener initialized');
+	/*
+	setInterval(function() {
+		console.log(that.socket.connected);
+		if (!that.socket.connected && !that.socket.connecting) {
+		//	console.log('Warning: reconnect inside cron');
+	//		that.socket = socketio.connect(WSURL);
+		}
+
+	}, 5000);*/
 	return this;
 };
 
+/* prototyped methods */
 Cligga.prototype = {
 	getRoomId : function() {
 		return roomid;
 	},
 	fireEvent : function(_event, _payload) {
-		var that = this;
+		console.log('Info: try to fire event ' + _event);
 		if (this.eventhandlers[_event]) {
 			for (var i = 0; i < this.eventhandlers[_event].length; i++) {
 				this.eventhandlers[_event][i].call(this, _payload);
@@ -58,7 +70,7 @@ Cligga.prototype = {
 		var payload = {
 			"id" : uid,
 		};
-		this._cbhandlers[payload.id] = _callback;
+		this.addEventListener(_payload.id,_callback);
 		this.socket.emit('join_querist', payload);
 	},
 	quitquerist : function() {
@@ -71,7 +83,7 @@ Cligga.prototype = {
 		var payload = {
 			"id" : uid,
 		};
-		this._cbhandlers[payload.id] = _callback;
+		this.addEventListener(_payload.id,_callback);
 		this.socket.emit('join_voter', payload);
 	},
 	quitvoter : function() {

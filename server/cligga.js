@@ -56,7 +56,6 @@ io.listen(server).on('connection', function(socket) {
 			});
 		});
 	});
-
 	// querist sends question:
 	socket.on('questioned', function(data) {// with question
 		socket.broadcast.emit('question', data.question);

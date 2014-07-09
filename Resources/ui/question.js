@@ -20,15 +20,15 @@ exports.create = function(_question) {
 		},
 		text : question.q
 	}));
-	var button = Ti.UI.createButton({
+	self.button = Ti.UI.createButton({
 		height : 40,
 		width : '90%',
 		title : 'Frage senden!',bottom:5,
 	});
-	button.addEventListener('click',function(){
+	self.button.addEventListener('click',function(){
 		Ti.App.Cligga.sendQuestion(question);
 	});
-	self.add(button);
+	self.add(self.button);
 	self.add(container);
 	return self;
 };
