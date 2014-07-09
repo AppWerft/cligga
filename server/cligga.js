@@ -16,7 +16,7 @@ server.listen(1334, function() {
 var voters = [];
 var querist = {};
 io.listen(server).on('connection', function(socket) {
-	console.log('Info: new client connected');
+	console.log('Info: new client connected ~~~~~~~~~~~~~~');
 	socket.on('join_querist', function(data) {
 		console.log('querist joined');
 		if (!querist.uid || querist.uid != data.uid) {
@@ -46,7 +46,6 @@ io.listen(server).on('connection', function(socket) {
 		});
 	});
 	socket.on('join_voter', function(data) {
-		console.log('voter_joined');
 		voters.contains(data, function(found) {
 			if (!found) {
 				voters.push(data);
@@ -56,6 +55,7 @@ io.listen(server).on('connection', function(socket) {
 			});
 		});
 	});
+
 	// querist sends question:
 	socket.on('questioned', function(data) {// with question
 		socket.broadcast.emit('question', data.question);

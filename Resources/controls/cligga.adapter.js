@@ -8,8 +8,11 @@ var WSURL = Ti.App.Properties.getString('cliggauri');
 var Cligga = function() {
 	this.eventhandlers = []; // collector of hooks
 	var that = this;
-	this.socket = socketio.connect('ws://134.100.29.95:1334/');
+	this.socket = socketio.connect('ws://134.100.29.95:1334');
 	console.log('Info: socket connected ~~~~~~~' + this.socket);
+	this.socket.on('connect', function () {
+		Ti.API.log('connected!');
+	});
 	this.socket.on('voter_joined', function(_payload) {
 	});
 	this.socket.on('voters', function(_payload) {
