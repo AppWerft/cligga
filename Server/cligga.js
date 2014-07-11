@@ -26,7 +26,7 @@ io.listen(server).on('connection', function(socket) {
 			//http://stackoverflow.com/questions/17476294/how-to-send-a-message-to-a-particular-client-with-socket-io #5
 		}  
 		socket.emit('querist_joined', voters);
-	});
+	});  
 
 	socket.on('quit_querist', function(data) {
 		querist = {};
