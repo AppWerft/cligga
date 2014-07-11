@@ -26,10 +26,9 @@ var Cligga = function() {
 	this.socket.addEventListener('message', function(ev) {
 		Ti.API.log(ev);
 	});
-*/
 	this.socket.open(WSURL);
-	
-	 this.socket = socketio.connect('this.socket://134.100.29.95:1334');
+	*/
+	 this.socket = socketio.connect('ws://134.100.29.95:1334');
 	 console.log('Info: socket connected ~~~~~~~' + this.socket);
 	 this.socket.on('connect', function () {
 	 Ti.API.log('connected!');
