@@ -1,7 +1,7 @@
 /* Module globals */
 var uid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).substring(0, 5);
 var roomid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).replace(/[\D]/g, '').substring(0, 5);
-var socketio = require('vendor/socket.io.0.9.10');
+
 var WSURL = Ti.App.Properties.getString('cliggauri');
 
 /* constructor */
@@ -28,7 +28,7 @@ var Cligga = function() {
 	});
 	this.socket.open(WSURL);
 	*/
-	 this.socket = socketio.connect('ws://134.100.29.95:1334');
+	 this.socket = require('vendor/socket.io.0.9.10').connect('ws://134.100.29.95:1334');
 	 console.log('Info: socket connected ~~~~~~~' + this.socket);
 	 this.socket.on('connect', function () {
 	 Ti.API.log('connected!');
