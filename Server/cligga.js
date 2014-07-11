@@ -18,7 +18,7 @@ var querist = {};
 io.listen(server).on('connection', function(socket) {
 	console.log('Info: new client connected ~~~~~~~~~~~~~~');
 	socket.on('join_querist', function(data) {
-		console.log('querist joined');
+		console.log('querist joined');   
 		if (!querist.uid || querist.uid != data.uid) {
 			querist = data;
 			socket.broadcast.emit('querist_joined', querist);
