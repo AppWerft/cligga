@@ -7,8 +7,6 @@ var WSURL = Ti.App.Properties.getString('cliggauri');
 /* constructor */
 var Cligga = function() {
 	this.eventhandlers = [];
-	// collector of hooks
-	var that = this;
 	/*this.socket = require('net.iamyellow.tiws').createWS();
 
 	this.socket.addEventListener('open', function() {
