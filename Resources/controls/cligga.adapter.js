@@ -6,32 +6,53 @@ var WSURL = Ti.App.Properties.getString('cliggauri');
 
 /* constructor */
 var Cligga = function() {
-	this.eventhandlers = []; // collector of hooks
+	this.eventhandlers = [];
+	// collector of hooks
 	var that = this;
-	this.socket = socketio.connect('ws://134.100.29.95:1334');
-	console.log('Info: socket connected ~~~~~~~' + this.socket);
-	this.socket.on('connect', function () {
-		Ti.API.log('connected!');
-	});
-	this.socket.on('voter_joined', function(_payload) {
-	});
-	this.socket.on('voters', function(_payload) {
-		that.fireEvent('voters', _payload);
-	});
-	this.socket.on('question', function(_payload) {
-		that.fireEvent('newquestion', _payload);
-	});
-	this.socket.on('voter_quit', function(_payload) {
-	});
-	/*
-	setInterval(function() {
-		console.log(that.socket.connected);
-		if (!that.socket.connected && !that.socket.connecting) {
-		//	console.log('Warning: reconnect inside cron');
-	//		that.socket = socketio.connect(WSURL);
-		}
+	/*this.socket = require('net.iamyellow.tiws').createWS();
 
-	}, 5000);*/
+	this.socket.addEventListener('open', function() {
+		Ti.API.debug('websocket opened');
+	});
+
+	this.socket.addEventListener('close', function(ev) {
+		Ti.API.info(ev);
+	});
+
+	this.socket.addEventListener('error', function(ev) {
+		Ti.API.error(ev);
+	});
+
+	this.socket.addEventListener('message', function(ev) {
+		Ti.API.log(ev);
+	});
+*/
+	this.socket.open(WSURL);
+	
+	 this.socket = socketio.connect('this.socket://134.100.29.95:1334');
+	 console.log('Info: socket connected ~~~~~~~' + this.socket);
+	 this.socket.on('connect', function () {
+	 Ti.API.log('connected!');
+	 });
+	 this.socket.on('voter_joined', function(_payload) {
+	 });
+	 this.socket.on('voters', function(_payload) {
+	 that.fireEvent('voters', _payload);
+	 });
+	 this.socket.on('question', function(_payload) {
+	 that.fireEvent('newquestion', _payload);
+	 });
+	 this.socket.on('voter_quit', function(_payload) {
+	 });
+	/*
+	 setInterval(function() {
+	 console.log(that.socket.connected);
+	 if (!that.socket.connected && !that.socket.connecting) {
+	 //	console.log('Warning: reconnect inside cron');
+	 //		that.socket = socketio.connect(this.socketURL);
+	 }
+
+	 }, 5000);*/
 	return this;
 };
 
@@ -73,7 +94,7 @@ Cligga.prototype = {
 		var payload = {
 			"id" : uid,
 		};
-		this.addEventListener(_payload.id,_callback);
+		this.addEventListener(payload.id, _callback);
 		this.socket.emit('join_querist', payload);
 	},
 	quitquerist : function() {
@@ -86,7 +107,7 @@ Cligga.prototype = {
 		var payload = {
 			"id" : uid,
 		};
-		this.addEventListener(_payload.id,_callback);
+		this.addEventListener(_payload.id, _callback);
 		this.socket.emit('join_voter', payload);
 	},
 	quitvoter : function() {
