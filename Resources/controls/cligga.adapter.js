@@ -8,7 +8,6 @@ var WSURL = Ti.App.Properties.getString('cliggauri');
 var Cligga = function() {
 	this.eventhandlers = [];
 	/*this.socket = require('net.iamyellow.tiws').createWS();
-
 	this.socket.addEventListener('open', function() {
 		Ti.API.debug('websocket opened');
 	});
@@ -26,7 +25,7 @@ var Cligga = function() {
 	});
 	this.socket.open(WSURL);
 	*/
-	 this.socket = require('vendor/socket.io.0.9.10').connect('ws://134.100.29.95:1334');
+	 this.socket = require('vendor/socket.io.0.9.16').connect('ws://134.100.29.95:1334');
 	 console.log('Info: socket connected ~~~~~~~' + this.socket);
 	 this.socket.on('connect', function () {
 	 Ti.API.log('connected!');
