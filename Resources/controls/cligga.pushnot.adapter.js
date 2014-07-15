@@ -4,7 +4,7 @@ var Cloud = require('ti.cloud');
 /* constructor */
 var Cligga = function() {
 	this.eventhandlers = {};
-	this.deviceToken = null;
+	this.deviceToken =  Ti.Network.remoteDeviceUUID; // only iOS and only if it is always registered
 	this.roomid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).replace(/[\D]/g, '').substring(0, 5);
 	this.loginUser();
 };
@@ -52,7 +52,8 @@ Cligga.prototype = {
 			Ti.Network.registerForPushNotifications({
 				success : function(e) {
 					that.deviceToken = e.deviceToken;
-					console.log('Info: successful subscribed for pushnot');
+					Ti.App.Properties.setString('deviceToken', e.deviceToken);
+					console.log('Info: successful subscribed for pushnot TOKEN='+that.deviceToken);
 				},
 				error : function(e) {
 					console.log('Error: ~~~~~~~~~~~~~~~~~~~');
@@ -79,9 +80,9 @@ Cligga.prototype = {
 		console.log('Info: TOKEN=' + this.deviceToken);
 		console.log('Info: CHANNEL=' + _channel);
 		Cloud.PushNotifications.subscribe({
-			channel : _channel,
-			device_token : that.deviceToken,
-			type : Ti.Platform.name == 'android' ? 'android' : 'ios'
+			"channel" : _channel || 'Q_' + this.getRoomId(),
+			"device_token" : that.deviceToken || Ti.Network.remoteDeviceUUID,
+			"type" : Ti.Platform.name == 'android' ? 'android' : 'ios'
 		}, function(e) {
 			console.log(e);
 		});
