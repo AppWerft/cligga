@@ -7,48 +7,31 @@ var WSURL = Ti.App.Properties.getString('cliggauri');
 /* constructor */
 var Cligga = function() {
 	this.eventhandlers = [];
-	/*this.socket = require('net.iamyellow.tiws').createWS();
-	this.socket.addEventListener('open', function() {
-		Ti.API.debug('websocket opened');
-	});
 
-	this.socket.addEventListener('close', function(ev) {
-		Ti.API.info(ev);
+	var query = 'description=' + Ti.Network.encodeURIComponent(Ti.App.description) + '&guid=' + Ti.App.guid + '&id=' + Ti.App.id + '&name=' + Ti.App.name + '&version=' + Ti.App.version + '&installId=' + Ti.App.installId;
+	this.socket = require('vendor/socket.io.0.9.16').connect('ws://134.100.29.95:1334', {
+		'transports' : ['websocket'],
+		'reconnect' : true,
+		'reconnection delay' : 100,
+		'reconnection limit' : 5000,
+		'max reconnection attempts' : Infinity,
+		'query' : query
 	});
-
-	this.socket.addEventListener('error', function(ev) {
-		Ti.API.error(ev);
+	console.log('Info: socket connected ~~~~~~~' + this.socket);
+	console.log(query);
+	this.socket.on('connect', function() {
+		Ti.API.log('connected!');
 	});
-
-	this.socket.addEventListener('message', function(ev) {
-		Ti.API.log(ev);
+	this.socket.on('voter_joined', function(_payload) {
 	});
-	this.socket.open(WSURL);
-	*/
-	 this.socket = require('vendor/socket.io.0.9.16').connect('ws://134.100.29.95:1334');
-	 console.log('Info: socket connected ~~~~~~~' + this.socket);
-	 this.socket.on('connect', function () {
-	 Ti.API.log('connected!');
-	 });
-	 this.socket.on('voter_joined', function(_payload) {
-	 });
-	 this.socket.on('voters', function(_payload) {
-	 that.fireEvent('voters', _payload);
-	 });
-	 this.socket.on('question', function(_payload) {
-	 that.fireEvent('newquestion', _payload);
-	 });
-	 this.socket.on('voter_quit', function(_payload) {
-	 });
-	/*
-	 setInterval(function() {
-	 console.log(that.socket.connected);
-	 if (!that.socket.connected && !that.socket.connecting) {
-	 //	console.log('Warning: reconnect inside cron');
-	 //		that.socket = socketio.connect(this.socketURL);
-	 }
-
-	 }, 5000);*/
+	this.socket.on('voters', function(_payload) {
+		that.fireEvent('voters', _payload);
+	});
+	this.socket.on('question', function(_payload) {
+		that.fireEvent('newquestion', _payload);
+	});
+	this.socket.on('voter_quit', function(_payload) {
+	});
 	return this;
 };
 
