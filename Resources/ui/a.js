@@ -69,7 +69,7 @@ exports.create = function(_color, _room) {
 			var answers = [];
 		}
 	});
-	Ti.App.Cligga.joinvoter(function(_payload) {
+	Ti.App.Cligga.joinRoom('A_' + _room, function(_payload) {
 		if (_payload.type == null) {
 			container.removeAllChildren();
 		}
@@ -125,7 +125,7 @@ exports.create = function(_color, _room) {
 		}
 	});
 	win.addEventListener('close', function() {
-		Ti.App.Cligga.quitvoter(function(_payload) {
+		Ti.App.Cligga.quitRoom('A_' + _room, function(_payload) {
 		});
 	});
 	return win;

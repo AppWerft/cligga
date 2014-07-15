@@ -1,5 +1,5 @@
 exports.create = function(_color, _room) {
-	Ti.App.Cligga.joinquerist(function(_payload) {
+	Ti.App.Cligga.joinRoom('Q_' + Ti.App.Cligga.getRoomId(), function(_payload) {
 	});
 	Ti.App.Cligga.addEventListener('voters', function(_payload) {
 		console.log(JSON.stringify(_payload));
@@ -55,6 +55,7 @@ exports.create = function(_color, _room) {
 			itemId : JSON.stringify(questions[i]),
 			hasDetails : true,
 			borderWidth : 1,
+			height : Ti.UI.SIZE,
 			borderColor : 'silver',
 		});
 		row.add(Ti.UI.createView({
@@ -68,6 +69,7 @@ exports.create = function(_color, _room) {
 			color : '#444',
 			left : 10,
 			top : 5,
+			height : Ti.UI.SIZE,
 			bottom : 5,
 			text : questions[i].q,
 			top : 10,

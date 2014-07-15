@@ -6,7 +6,7 @@
     <property name="acs-oauth-secret-production" type="string">FBZ9ALEWrlWkWGo4mX4SAmbtu6vXdq2X</property>
     <property name="acs-oauth-key-production" type="string">evjDdzidOAJv8aPUYfmSIdWPBxNW9P1r</property>
     <property name="acs-api-key-production" type="string">ZmqNhCeDhMKaDohYcOoU2xLqHYQfiKv9</property>
-    <id>de.appwertft.cligga</id>
+    <id>de.appwerft.cligga</id>
     <name>Cligga</name>
     <version>1.0.0</version>
     <publisher>rainerschleevoigt</publisher>
