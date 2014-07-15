@@ -2,6 +2,7 @@
 var Cloud = require('ti.cloud');
 var CloudPush = require('ti.cloudpush');
 
+/* constructor */
 var Cligga = function() {
 	this.eventhandlers = {};
 	this.init();
@@ -10,31 +11,34 @@ var Cligga = function() {
 Cligga.prototype = {
 	init : function() {
 		this.roomid = Ti.Utils.md5HexDigest(Ti.Platform.getMacaddress()).replace(/[\D]/g, '').substring(0, 5);
+		this.loggedin = false;
+		var that = this;
 		if (Ti.Android && Ti.Platform.Android.API_LEVEL > 12 && Ti.Network.online == true) {
+
 			CloudPush.showTrayNotificationsWhenFocused = true;
 			CloudPush.focusAppOnPush = false;
 			CloudPush.showTrayNotification = false;
 			CloudPush.singleCallback = false;
-			var that = this;
 			CloudPush.retrieveDeviceToken({
 				success : function(e) {
-					console.log('Info: deviceToken saved');
 					Ti.App.Properties.setString('deviceToken', e.deviceToken);
 					that.deviceToken = e.deviceToken;
 					Cloud.Users.login({
-						login : 'dummy',
-						password : 'dummy'
+						login : "dummy",
+						password : "dummy"
 					}, function(e) {
-						that.login = true;
-						console.log('Info: login into ACS ' + e.success);
-						_callback && _callback(e);
+						if (e.success) {
+							var user = e.users[0];
+							alert('Success:\n' + 'id: ' + user.id + '\n' + 'sessionId: ' + Cloud.sessionId + '\n' + 'first name: ' + user.first_name + '\n' + 'last name: ' + user.last_name);
+						} else {
+							alert('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+						}
 					});
 				},
 				error : function(e) {
 				}
 			});
 		}
-
 	},
 	getRoomId : function() {
 		return this.roomid;

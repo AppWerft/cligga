@@ -55,9 +55,7 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="iphone" version="0.3">net.iamyellow.tiws</module>
         <module platform="commonjs">ti.cloud</module>
-        <module platform="android">net.iamyellow.tiws</module>
         <module platform="android">ti.cloudpush</module>
     </modules>
     <deployment-targets>
@@ -68,5 +66,5 @@
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>
     </deployment-targets>
-    <sdk-version>3.4.0.v20140605150746</sdk-version>
+    <sdk-version>3.2.3.GA</sdk-version>
 </ti:app>
